@@ -1,11 +1,9 @@
 package com.example.swapiassessment;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +14,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
     private List<Person> people;
     private LayoutInflater inflater;
-    private ItemClickListener clickListener;
+    private PersonClickListener clickListener;
 
     PersonAdapter(Context context, List<Person> people) {
         this.inflater = LayoutInflater.from(context);
@@ -45,23 +43,6 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return people.size();
-    }
-
-    public Person getPerson(int position) {
-        return people.get(position);
-    }
-
-    public void addPerson(Person person) {
-        people.add(person);
-        notifyItemInserted(getItemCount());
-    }
-
-    void setClickListener(ItemClickListener listener) {
-        this.clickListener = listener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -111,6 +92,23 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             personBirthYear.setText(name);
         }
 
+    }
+
+    public Person getPerson(int position) {
+        return people.get(position);
+    }
+
+    public void addPerson(Person person) {
+        people.add(person);
+        notifyItemInserted(getItemCount());
+    }
+
+    void setClickListener(PersonClickListener listener) {
+        this.clickListener = listener;
+    }
+
+    public interface PersonClickListener {
+        void onItemClick(View view, int position);
     }
 
 }
