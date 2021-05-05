@@ -1,6 +1,8 @@
 package com.example.swapiassessment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -38,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
 
         player = MediaPlayer.create(getApplicationContext(), R.raw.swintro);
 
-
         peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
         peopleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         personAdapter = new PersonAdapter(this, people);
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
                 playButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(View.VISIBLE);
                 player.start();
-
+                peopleRecyclerView.suppressLayout(true);
                 startScrolling();
             }
         });
@@ -73,11 +75,10 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
                 pauseButton.setVisibility(View.GONE);
                 playButton.setVisibility(View.VISIBLE);
                 player.pause();
-
+                peopleRecyclerView.suppressLayout(false);
                 peopleRecyclerView.stopScroll();
             }
         });
-
     }
 
     private void populatePeoplePages() {
@@ -128,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
     public void onItemClick(View view, int position) {
         Person person = personAdapter.getPerson(position);
         Toast.makeText(this, person.getEyeColor(), Toast.LENGTH_SHORT).show();
-        startScrolling();
     }
 
     private void startScrolling() {
