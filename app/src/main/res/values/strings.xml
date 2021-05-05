@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SwapiAssessment</string>
-    <string name="person_name_label">Name:</string>
-    <string name="person_height_label">Height:</string>
-    <string name="person_mass_label">Mass:</string>
-    <string name="person_birthyear_label">Birth Year:</string>
+    <string name="person_name_label">FirstName LastName</string>
+    <string name="person_height_label">Height m</string>
+    <string name="person_mass_label">Mass kg</string>
+    <string name="person_birthyear_label">Born Year</string>
 </resources>

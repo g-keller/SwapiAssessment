@@ -30,10 +30,14 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Person person = people.get(position);
+        String heightText = person.getHeight().equals("unknown") ? "Height Unknown" : person.getHeight() + "m";
+        String massText = person.getMass().equals("unknown") ? "Mass Unknown" : person.getMass() + "kg";
+        String birthYearText = person.getBirthYear().equals("unknown") ? "Birth Year Unknown" : "Born " + person.getBirthYear();
+
         holder.setName(person.getName());
-        holder.setHeight(person.getHeight());
-        holder.setMass(person.getMass());
-        holder.setBirthYear(person.getBirthYear());
+        holder.setHeight(heightText);
+        holder.setMass(massText);
+        holder.setBirthYear(birthYearText);
     }
 
     @Override
