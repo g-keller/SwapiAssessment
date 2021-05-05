@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Per
     @Override
     public void onItemClick(View view, int position) {
         Person person = personAdapter.getPerson(position);
-        Toast.makeText(this, person.getEyeColor(), Toast.LENGTH_SHORT).show();
+        String eyeColor = person.getEyeColor().equals("unknown") ? "Eye Color Unknown" : person.getEyeColor();
+        Toast.makeText(this, eyeColor, Toast.LENGTH_SHORT).show();
     }
 
     // helpers
