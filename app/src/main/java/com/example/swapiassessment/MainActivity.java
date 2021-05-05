@@ -26,12 +26,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         List<Person> people = new ArrayList<Person>();
-        Person todd = new Person();
-        todd.setName("Todd");
-        Person joe = new Person();
-        joe.setName("Joe");
-        people.add(todd);
-        people.add(joe);
 
         RecyclerView peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
         peopleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
         api.listPeople().enqueue(new Callback<PersonList>() {
             @Override
             public void onResponse(Call<PersonList> call, Response<PersonList> response) {
-                List<Person> people = response.body().getPeople();
-                for (Person person : people) {
+                List<Person> peopleReturned = response.body().getPeople();
+                for (Person person : peopleReturned) {
+                    personAdapter.addItem(person);
                     Log.d("API", person.getName());
                 }
             }

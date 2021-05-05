@@ -1,7 +1,6 @@
 package com.example.swapiassessment;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,10 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Person person = people.get(position);
-        holder.label.setText(person.getName());
+        holder.setName(person.getName());
+        holder.setHeight(person.getHeight());
+        holder.setMass(person.getMass());
+        holder.setBirthYear(person.getBirthYear());
     }
 
     @Override
@@ -39,12 +41,47 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         return people.size();
     }
 
+    public void addItem(Person person) {
+        people.add(person);
+        notifyItemInserted(getItemCount());
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder { //} implements View.OnClickListener {
 
-        TextView label;
+        private TextView personName;
+        private TextView personHeight;
+        private TextView personMass;
+        private TextView personBirthYear;
+
         ViewHolder(View itemView) {
             super(itemView);
-            label = itemView.findViewById(R.id.personListItemTextView);
+            personName = itemView.findViewById(R.id.personName);
+            personHeight = itemView.findViewById(R.id.personHeight);
+            personMass = itemView.findViewById(R.id.personMass);
+            personBirthYear = itemView.findViewById(R.id.personBirthYear);
+        }
+
+        // NOTE: Though I use setters here, please keep in mind that my actual opinion
+        // on whether they are necessary is a bit shaky. I am using them because they seem to be
+        // standard in Java programming, but whether they should be used to assign to fields with
+        // no other processing seems to be a contested issue
+        // (see https://stackoverflow.com/questions/1568091/why-use-getters-and-setters-accessors).
+        // If we have time, I think this is something I'd like to discuss in the interview.
+
+        public void setName(String name) {
+            personName.setText(name);
+        }
+
+        public void setHeight(String name) {
+            personHeight.setText(name);
+        }
+
+        public void setMass(String name) {
+            personMass.setText(name);
+        }
+
+        public void setBirthYear(String name) {
+            personBirthYear.setText(name);
         }
 
     }
