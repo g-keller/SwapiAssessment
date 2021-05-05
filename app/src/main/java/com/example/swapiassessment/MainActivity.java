@@ -2,11 +2,15 @@ package com.example.swapiassessment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,8 +24,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements PersonAdapter.ItemClickListener{
 
+    private RecyclerView peopleRecyclerView;
     private PersonAdapter personAdapter;
     SwapiService api;
+    MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +36,10 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
 
         List<Person> people = new ArrayList<Person>();
 
-        RecyclerView peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
+        player = MediaPlayer.create(getApplicationContext(), R.raw.swintro);
+
+
+        peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
         peopleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         personAdapter = new PersonAdapter(this, people);
         personAdapter.setClickListener(this);
@@ -43,6 +52,31 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
         api = retrofit.create(SwapiService.class);
 
         populatePeoplePages();
+
+        ImageButton playButton = findViewById(R.id.playButton);
+        ImageButton pauseButton = findViewById(R.id.pauseButton);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playButton.setVisibility(View.GONE);
+                pauseButton.setVisibility(View.VISIBLE);
+                player.start();
+
+                startScrolling();
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseButton.setVisibility(View.GONE);
+                playButton.setVisibility(View.VISIBLE);
+                player.pause();
+
+                peopleRecyclerView.stopScroll();
+            }
+        });
 
     }
 
@@ -94,6 +128,19 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
     public void onItemClick(View view, int position) {
         Person person = personAdapter.getPerson(position);
         Toast.makeText(this, person.getEyeColor(), Toast.LENGTH_SHORT).show();
+        startScrolling();
+    }
+
+    private void startScrolling() {
+        LinearSmoothScroller scroller = new LinearSmoothScroller(peopleRecyclerView.getContext()) {
+            @Override
+            protected float calculateSpeedPerPixel(DisplayMetrics metrics) {
+                return 10;
+            }
+        };
+
+        scroller.setTargetPosition(personAdapter.getItemCount() - 1);
+        peopleRecyclerView.getLayoutManager().startSmoothScroll(scroller);
     }
 
 }

@@ -6,4 +6,6 @@
     <string name="person_birthyear_label">Born Year</string>
     <!--  Font requires lowercase i to display capital I for some reason.  -->
     <string name="tool_bar_title">Star Wars APi</string>
+    <string name="play_button_content_description">Play Button</string>
+    <string name="pause_button_content_description">Pause Button</string>
 </resources>
