@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:background="@color/card_color"
-    android:padding="10dp">
+    android:background="@color/star_wars_yellow"
+    android:padding="2dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/card_color"
+        android:padding="0dp"
+        app:cardBackgroundColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,15 +20,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/personName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:gravity="center"
                 android:text="@string/person_name_label"
+                android:textColor="@color/star_wars_yellow"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -45,7 +47,8 @@
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="@string/person_height_label" />
+                    android:text="@string/person_height_label"
+                    android:textColor="@color/star_wars_yellow" />
 
                 <TextView
                     android:id="@+id/personMass"
@@ -55,7 +58,8 @@
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="@string/person_mass_label" />
+                    android:text="@string/person_mass_label"
+                    android:textColor="@color/star_wars_yellow" />
 
                 <TextView
                     android:id="@+id/personBirthYear"
@@ -65,7 +69,8 @@
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="@string/person_birthyear_label" />
+                    android:text="@string/person_birthyear_label"
+                    android:textColor="@color/star_wars_yellow" />
 
             </LinearLayout>
 

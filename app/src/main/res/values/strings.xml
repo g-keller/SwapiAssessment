@@ -4,4 +4,6 @@
     <string name="person_height_label">Height m</string>
     <string name="person_mass_label">Mass kg</string>
     <string name="person_birthyear_label">Born Year</string>
+    <!--  Font requires lowercase i to display capital I for some reason.  -->
+    <string name="tool_bar_title">Star Wars APi</string>
 </resources>
