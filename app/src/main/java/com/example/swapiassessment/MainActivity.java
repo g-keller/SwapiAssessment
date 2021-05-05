@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
 
         List<Person> people = new ArrayList<Person>();
 
-        player = MediaPlayer.create(getApplicationContext(), R.raw.swintro);
-        player.setLooping(true);
-
         peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
         peopleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         personAdapter = new PersonAdapter(this, people);
@@ -58,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
         api = retrofit.create(SwapiService.class);
 
         populatePeoplePages();
+
+        player = MediaPlayer.create(getApplicationContext(), R.raw.swintro);
+        player.setLooping(true);
 
         playButton = findViewById(R.id.playButton);
         pauseButton = findViewById(R.id.pauseButton);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
         LinearSmoothScroller scroller = new LinearSmoothScroller(peopleRecyclerView.getContext()) {
             @Override
             protected float calculateSpeedPerPixel(DisplayMetrics metrics) {
-                return 1;
+                return 10;
             }
 
             @Override
