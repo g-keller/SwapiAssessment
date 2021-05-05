@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
     SwapiService api;
     MediaPlayer player;
 
+    ImageButton playButton;
+    ImageButton pauseButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
         List<Person> people = new ArrayList<Person>();
 
         player = MediaPlayer.create(getApplicationContext(), R.raw.swintro);
+        player.setLooping(true);
 
         peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
         peopleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -55,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
 
         populatePeoplePages();
 
-        ImageButton playButton = findViewById(R.id.playButton);
-        ImageButton pauseButton = findViewById(R.id.pauseButton);
+        playButton = findViewById(R.id.playButton);
+        pauseButton = findViewById(R.id.pauseButton);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +139,20 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Ite
         LinearSmoothScroller scroller = new LinearSmoothScroller(peopleRecyclerView.getContext()) {
             @Override
             protected float calculateSpeedPerPixel(DisplayMetrics metrics) {
-                return 10;
+                return 1;
+            }
+
+            @Override
+            protected int calculateTimeForDeceleration(int x) {
+                return 0;
+            }
+
+            @Override
+            protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
+                pauseButton.setVisibility(View.GONE);
+                playButton.setVisibility(View.VISIBLE);
+                player.pause();
+                peopleRecyclerView.suppressLayout(false);
             }
         };
 
