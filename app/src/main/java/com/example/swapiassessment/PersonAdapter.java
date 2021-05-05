@@ -1,9 +1,11 @@
 package com.example.swapiassessment;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +16,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
     private List<Person> people;
     private LayoutInflater inflater;
-    // private ItemClickListener clickListener;
+    private ItemClickListener clickListener;
 
     PersonAdapter(Context context, List<Person> people) {
         this.inflater = LayoutInflater.from(context);
@@ -45,12 +47,24 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         return people.size();
     }
 
-    public void addItem(Person person) {
+    public Person getPerson(int position) {
+        return people.get(position);
+    }
+
+    public void addPerson(Person person) {
         people.add(person);
         notifyItemInserted(getItemCount());
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder { //} implements View.OnClickListener {
+    void setClickListener(ItemClickListener listener) {
+        this.clickListener = listener;
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView personName;
         private TextView personHeight;
@@ -63,6 +77,15 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
             personHeight = itemView.findViewById(R.id.personHeight);
             personMass = itemView.findViewById(R.id.personMass);
             personBirthYear = itemView.findViewById(R.id.personBirthYear);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null) {
+                clickListener.onItemClick(view, getAdapterPosition());
+            }
         }
 
         // NOTE: Though I use setters here, please keep in mind that my actual opinion

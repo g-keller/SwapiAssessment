@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PersonAdapter.ItemClickListener{
 
     private PersonAdapter personAdapter;
     SwapiService api;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView peopleRecyclerView = findViewById(R.id.peopleRecyclerView);
         peopleRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         personAdapter = new PersonAdapter(this, people);
+        personAdapter.setClickListener(this);
         peopleRecyclerView.setAdapter(personAdapter);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 int numberOfPages = (int) Math.ceil(totalPeople / maxPeoplePerPage);
                 List<Person> peopleReturned = response.body().getPeople();
                 for (Person person : peopleReturned) {
-                    personAdapter.addItem(person);
+                    personAdapter.addPerson(person);
                     Log.d("API", person.getName());
                 }
                 for (int i = 2; i <= numberOfPages; i++) {
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<PersonList> call, Response<PersonList> response) {
                 List<Person> peopleReturned = response.body().getPeople();
                 for (Person person : peopleReturned) {
-                    personAdapter.addItem(person);
+                    personAdapter.addPerson(person);
                     Log.d("API", person.getName());
                 }
             }
@@ -87,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onItemClick(View view, int position) {
+        Person person = personAdapter.getPerson(position);
+        Toast.makeText(this, person.getEyeColor(), Toast.LENGTH_SHORT).show();
+    }
 
 }
